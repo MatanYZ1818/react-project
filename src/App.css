@@ -1,5 +1,39 @@
 .header{
     width: 100%;
-    background-color: darkblue;
+    background-color: rgb(31, 129, 185);
     height: 50px;
+    display: flex;
+    direction: rtl;
+    color: white;
+}
+
+.userSide{
+    width: 50%;
+}
+
+.dataSide{
+    width: 50%;
+    direction: ltr;
+    display: flex;
+    align-items: center;
+}
+
+.dataSide>h2, .dataSide>h4{
+    display: inline-block;
+    margin: 10px;
+}
+
+.headerButton{
+    height: 90%;
+    background-color: rgb(31, 129, 185);
+}
+
+.nightButton{
+    transition: 500ms;
+    transform: skewX(45deg);
+}
+
+.userIcon{
+    height: 50px;
+    width: 50px;
 }
