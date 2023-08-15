@@ -8,6 +8,7 @@ function App() {
 	const [islogged,setIsLogged]=useState(false);
 	const [loading, setLoading] = useState(true);
 	const [isLight,setIsLight]=useState(true)
+	const [data,setData]=useState([])
 
 	const changeLight=()=>{
 		if (isLight){
@@ -17,7 +18,7 @@ function App() {
 	}
 	return (
 		<>
-			<section className='header'>
+			<header>
 				<div className='userSide'>
 					{!islogged ? (
 							<>
@@ -33,7 +34,7 @@ function App() {
 						:
 						(
 							<button>
-								<i className='userIcon' class="bi bi-person-square"></i>
+								<Icon.PersonSquare />
 							</button>
 							
 						)}
@@ -42,7 +43,16 @@ function App() {
 					<h2>CarDex</h2>
 					<h4>about</h4>
 				</div>
-			</section>
+			</header>
+			<body>
+				hello
+				<div className='siteContainer'>
+					<h1>Cardex</h1>
+					<h4>hello and welcome to a new experience in sharing and managing your business cards</h4>
+					<div className='devider'></div>
+
+				</div>
+			</body>
 		</>
 	);
 }

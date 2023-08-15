@@ -1,4 +1,4 @@
-.header{
+header{
     width: 100%;
     background-color: rgb(31, 129, 185);
     height: 50px;
@@ -9,6 +9,8 @@
 
 .userSide{
     width: 50%;
+    display: flex;
+    align-items: center;
 }
 
 .dataSide{
@@ -28,12 +30,37 @@
     background-color: rgb(31, 129, 185);
 }
 
-.nightButton{
+svg{
+    height: 2em;
+    width: 2em;
+}
+
+.dayButton{
     transition: 500ms;
-    transform: skewX(45deg);
+    scale: 2;
 }
 
 .userIcon{
     height: 50px;
     width: 50px;
+}
+
+body{
+    height: max-content;
+    background-color: rgb(101, 189, 248);
+    color: white;
+}
+
+.siteContainer{
+    max-width: 700px;
+    width: 77%;
+    margin: auto;
+}
+
+.devider{
+    height: 5px;
+    background-color:lightgray;
+    width: 95%;
+    margin: auto;
+    border-radius: 10px;
 }
