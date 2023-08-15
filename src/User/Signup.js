@@ -16,7 +16,7 @@ export default function Signup(){
         userName: Joi.string().min(3).max(10).required(),
         password: Joi.string()
             .min(8)
-            .regex(/^(?=\S*[a-z])(?=\S*[A-Z])(?=\S*\d)(?=\S*[^\w\s])\S{8,30}$/)
+            .regex(/^(?=.[a-z])(?=.[A-Z])(?=.\d)(?=.[@$!%?&])[A-Za-z\d@$!%?&]{8,10}$/)
             .required()
             .label("Password")
             .messages({
