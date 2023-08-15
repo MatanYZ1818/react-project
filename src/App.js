@@ -3,6 +3,7 @@ import React, {useState} from "react"
 import "./resources/person-square.svg"
 import * as Icon from "react-bootstrap-icons"
 import Navbar from './Navbar';
+import MainPage from './MainPage';
 
 export const userContext=React.createContext();
 
@@ -22,13 +23,7 @@ function App() {
 				<Navbar />
 			</header>
 			<body>
-				hello
-				<div className='siteContainer'>
-					<h1>Cardex</h1>
-					<h4>hello and welcome to a new experience in sharing and managing your business cards</h4>
-					<div className='devider'></div>
-
-				</div>
+				<MainPage />
 			</body>
 		</ userContext.Provider>
 	);

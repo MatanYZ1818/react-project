@@ -1,107 +1,163 @@
-import { useState } from "react"
+import { useContext, useState } from 'react';
+import Joi from 'joi';
+import { BiRefresh } from 'react-icons/bi';
+import { GeneralContext } from '../../App';
 
-export default function Signup(){
-    const [formData, setFormData] = useState({
-        userName: '',
-        password: '',
-        email: '',
-        fullName: '',
-    });
-    
-    const [loginError, setLoginError] = useState('');
-    const [errors, setErrors] = useState({});
-    const [isValid, setIsValid] = useState(false);
+export default function Signup() {
+  const { setUser, isLogged, setIsLogged, snackbar, setIsLoading } = useContext(GeneralContext);
+  const [formData, setFormData] = useState({
+    userName: '',
+    password: '',
+    email: '',
+    fullName: '',
+  });
 
-    const loginSchema = Joi.object({
-        userName: Joi.string().min(3).max(10).required(),
-        password: Joi.string()
-            .min(8)
-            .regex(/^(?=.[a-z])(?=.[A-Z])(?=.\d)(?=.[@$!%?&])[A-Za-z\d@$!%?&]{8,10}$/)
-            .required()
-            .label("Password")
-            .messages({
-            "string.min": "Must have at least 8 characters",
-            "object.regex": "Must have at least 8 characters",
-            "string.pattern.base": "enter your custom error here..."}),
-        email: Joi.string().min(3).required(),
-        fullName: Joi.string().min(3).required(),
-    });
+  const [loginError, setLoginError] = useState('');
+  const [errors, setErrors] = useState({});
+  const [isValid, setIsValid] = useState(false);
 
-    const handleInputChange = (ev) => {
-        const { id, value } = ev.target;
+  const loginSchema = Joi.object({
+    userName: Joi.string().min(3).max(10).required(),
+    password: Joi.string().min(3).required(),
+    email: Joi.string().min(3).required(),
+    fullName: Joi.string().min(3).required(),
+  });
 
-        const obj = {
-            ...formData,
-            [id]: value,
-        };
+  const handleInputChange = (ev) => {
+    const { id, value } = ev.target;
 
-        const schema = loginSchema.validate(obj, { abortEarly: false, messages: { he: JOI_HEBREW }, errors: { language: 'he' } });
-        const err = { ...errors, [id]: undefined };
-
-        if (schema.error) {
-            const error = schema.error.details.find(e => e.context.key === id);
-
-            if (error) {
-                err[id] = error.message;
-            }
-
-            setIsValid(false);
-        } else {
-            setIsValid(true);
-        }
-
-        setFormData(obj);
-        setErrors(err);
+    const obj = {
+      ...formData,
+      [id]: value,
     };
 
-    function signup(ev) {
-        ev.preventDefault();
+    const schema = loginSchema.validate(obj, { abortEarly: false });
+    const err = { ...errors, [id]: undefined };
 
-        fetch("https://api.shipap.co.il/signup", {
-            credentials: 'include',
-            method: "POST",
-            headers: {
-                'Content-type': 'application/json'
-            },
-            body: JSON.stringify(formData),
-        })
-        .then(res => res.json())
-        .then(data => {
-            if (data.status === 'success') {
-                onSignup(data.user);
-            } else {
-                setLoginError(data.message);
-            }
-        });
+    if (schema.error) {
+      const error = schema.error.details.find(e => e.context.key === id);
+
+      if (error) {
+        err[id] = error.message;
+      }
+
+      setIsValid(false);
+    } else {
+      setIsValid(true);
     }
 
-    return(
-        <>
-            <div className="titleContainer">
-                <h2>Register</h2>
-            </div>
-            <div className="formContainer">
-                <form onSubmit={signup}> 
-                    <input type="text" id='fullName' className={errors.fullName ? 'fieldError' : ''} onChange={handleInputChange} />
-                    
-                    {errors.fullName ? <div className='fieldError'>{errors.fullName}</div> : ''}
+    setFormData(obj);
+    setErrors(err);
+  };
 
-                    <input type="email" id='email' className={errors.email ? 'fieldError' : ''} onChange={handleInputChange} />
-                    
-                    {errors.email ? <div className='fieldError'>{errors.email}</div> : ''}
+  function signup(ev) {
+    ev.preventDefault();
 
-                    <input type="text" id='userName' className={errors.userName ? 'fieldError' : ''} onChange={handleInputChange} />
-                    
-                    {errors.userName ? <div className='fieldError'>{errors.userName}</div> : ''}
+    fetch("https://api.shipap.co.il/signup", {
+      credentials: 'include',
+      method: "POST",
+      headers: {
+        'Content-type': 'application/json'
+      },
+      body: JSON.stringify(formData),
+    })
+    .then(res => {
+        if(res.ok){
+            return res.json()
+        } else {
+            return res.text()
+            .then (x=>{
+                throw new Error(x)
+            })
+        }
+        })
+    .catch(err => {
+        setLoginError(err.message);
+        })
+    .finally(() => {
+        setIsLoading(false);
+        });
+  }
 
-                    <input type="password" id='password' className={errors.password ? 'fieldError' : ''} onChange={handleInputChange} />
-                    
-                    {errors.password ? <div className='fieldError'>{errors.password}</div> : ''}
+  return (
+    <div className="Login smallFrame">
+      <h2>REGISTER</h2>
 
-                    <button disabled={!isValid}>הרשם</button>
+      <form>
+        <label>
+        First name*
+          <input type="text" id='firstname' className={errors.firstname ? 'fieldError' : ''} onChange={handleInputChange} />
+        </label>
 
-                </form>
-            </div>
-        </>
-    )
+        {errors.firstname ? <div className='fieldError'>{errors.firstname}</div> : ''}
+
+        <label>
+          <input type="text" id='middlename' placeholder='Middle name'/>
+        </label>
+
+        <label>
+        Last name*
+          <input type="text" id='lastname' className={errors.lastname ? 'fieldError' : ''} onChange={handleInputChange} />
+        </label>
+
+        {errors.lastname ? <div className='fieldError'>{errors.lastname}</div> : ''}
+
+        <label>
+        Phone*
+          <input type="tel" id='phone' className={errors.phone ? 'fieldError' : ''} onChange={handleInputChange} />
+        </label>
+
+        {errors.phone ? <div className='fieldError'>{errors.phone}</div> : ''}
+
+        <label>
+        Email*
+          <input type="email" id='email' className={errors.email ? 'fieldError' : ''} onChange={handleInputChange} />
+        </label>
+
+        {errors.email ? <div className='fieldError'>{errors.email}</div> : ''}
+
+        <label>
+        Password*
+          <input type="password" id='password' className={errors.password ? 'fieldError' : ''} onChange={handleInputChange} />
+        </label>
+
+        {errors.password ? <div className='fieldError'>{errors.password}</div> : ''}
+
+        <label>
+          <input type="url" id='imageurl' placeholder='Image url'/>
+        </label>
+        <label>
+          <input type="text" id='imagealt' placeholder='Image alt'/>
+        </label>
+        <label>
+          <input type="text" id='state' placeholder='State'/>
+        </label>
+        <label>
+          <input type="text" id='country' placeholder='Country*'/>
+        </label>
+        <label>
+          <input type="text" id='city' placeholder='City*'/>
+        </label>
+        <label>
+          <input type="text" id='street' placeholder='Street*'/>
+        </label>
+        <label>
+          <input type="number" id='housenumber' placeholder='House number*'/>
+        </label>
+        <label>
+          <input type="number" id='zip' placeholder='Zip'/>
+        </label>
+        <label>
+        <input type='checkbox'/>
+        Signup as business
+        </label>
+
+        <button>CANCEL</button>
+        <button><BiRefresh size={22} /></button>
+        <button disabled={!isValid} onClick={signup}>SUBMIT</button>
+
+        {loginError ? <div className='fieldError'>{loginError}</div> : ''}
+      </form>
+    </div>
+  )
 }

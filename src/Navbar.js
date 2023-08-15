@@ -1,7 +1,8 @@
-
-import { useContext } from "react"
+import { useContext,React } from "react"
 import * as Icon from "react-bootstrap-icons"
 import { userContext } from "./App"
+import {Link} from "react-router-dom";
+
 
 export default function Navbar(){
     const {islogged,changeLight,isLight}=useContext(userContext)
@@ -26,11 +27,12 @@ export default function Navbar(){
                         </button>
                         
                     )}
+
             </div>
             <div className='dataSide'>
                 <h2>CarDex</h2>
                 <h4>about</h4>
-			</div>
+            </div>
         </>
     )
 }
