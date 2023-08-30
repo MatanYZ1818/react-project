@@ -42,10 +42,11 @@ header{
 svg{
     height: 2em;
     width: 2em;
+    transition: 500ms;
 }
 
 .iii{
-    transform: translateY(20px);
+    transform: translateY(2em);
 }
 
 .dayButton{
@@ -62,6 +63,7 @@ body{
     height: max-content;
     background-color: #65bdf8;
     color: white;
+    text-align: center;
 }
 
 .siteContainer{
@@ -78,4 +80,3 @@ body{
     margin: auto;
     border-radius: 10px;
 }
-
