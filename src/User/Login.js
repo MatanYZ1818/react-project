@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import "./User.css"
+import "./User.scss"
 import Joi from 'joi';
 import { useContext, useEffect, useState } from 'react';
 import { userContext } from '../App';

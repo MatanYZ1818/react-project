@@ -1,4 +1,5 @@
 import { useContext, useState } from 'react';
+import "./User.scss"
 import Joi from 'joi';
 import { BiRefresh } from 'react-icons/bi';
 import { userContext } from '../App';
@@ -6,10 +7,20 @@ import { userContext } from '../App';
 export default function Signup() {
     const { setUser, isLogged, setIsLogged, snackbar, setIsLoading } = useContext(userContext);
     const [formData, setFormData] = useState({
-        userName: '',
-        password: '',
-        email: '',
-        fullName: '',
+        firstName:"",
+        middleName:"",
+        lastName:"",
+        phone:"",
+        email:"",
+        password:"",
+        imageUrl:"",
+        imageAlt:"",
+        state:"",
+        coutry:"",
+        city:"",
+        street:"",
+        houseNumber:"",
+        zip:"",
     });
 
     const [loginError, setLoginError] = useState('');
@@ -17,147 +28,132 @@ export default function Signup() {
     const [isValid, setIsValid] = useState(false);
 
     const loginSchema = Joi.object({
-        userName: Joi.string().min(3).max(10).required(),
-        password: Joi.string().min(3).required(),
+        firstName: Joi.string().min(2).required(),
+        middleName: Joi.string().min(0),
+        lastName: Joi.string().min(2).required(),
+        phone: Joi.string().min(5).required(),
         email: Joi.string().min(3).required(),
-        fullName: Joi.string().min(3).required(),
+        password: Joi.string().min(6).required(),
+        imageUrl: Joi.string().min(0),
+        imageAlt: Joi.string().min(0),
+        state: Joi.string().min(0),
+        coutry: Joi.string().min(0),
+        city: Joi.string().min(0),
+        street: Joi.string().min(0),
+        houseNumber: Joi.string().min(0),
+        zip: Joi.number()
     });
 
+    const inputStructure=[
+        {name:"firstName",title:"First name*",type:"text"}
+        ,{name:"middleName",title:"Middle name",type:"text"}
+        ,{name:"lastName",title:"Last name*",type:"text"}
+        ,{name:"phone",title:"Phone*",type:"text"}
+        ,{name:"email",title:"Email*",type:"text"}
+        ,{name:"password",title:"Password*",type:"password"}
+        ,{name:"imageUrl",title:"Image",type:"text"}
+        ,{name:"imageAlt",title:"Image alternative text",type:"text"}
+        ,{name:"state",title:"State",type:"text"}
+        ,{name:"coutry",title:"Country*",type:"text"}
+        ,{name:"city",title:"City*",type:"text"}
+        ,{name:"street",title:"Street*",type:"text"}
+        ,{name:"houseNumber",title:"House number*",type:"number"}
+        ,{name:"zip",title:"zip code*",type:"number"}    
+    ]
+
     const handleInputChange = (ev) => {
-    const { id, value } = ev.target;
+        const { id, value } = ev.target;
 
-    const obj = {
-        ...formData,
-        [id]: value,
-    };
+        const obj = {
+            ...formData,
+            [id]: value,
+        };
 
-    const schema = loginSchema.validate(obj, { abortEarly: false });
-    const err = { ...errors, [id]: undefined };
+        const schema = loginSchema.validate(obj, { abortEarly: false });
+        const err = { ...errors, [id]: undefined };
 
-    if (schema.error) {
-        const error = schema.error.details.find(e => e.context.key === id);
+        console.log(schema.error)
 
-        if (error) {
-        err[id] = error.message;
+        if (schema.error) {
+            const error = schema.error.details.find(e => e.context.key === id);
+
+            if (error) {
+            err[id] = error.message;
+            }
+
+            console.log("invalid");
+            setIsValid(false);
+        } else {
+            console.log("valid");
+            setIsValid(true);
         }
 
-        setIsValid(false);
-    } else {
-        setIsValid(true);
+        setFormData(obj);
+        setErrors(err);
+    };
+
+    const focus=ev=>{
     }
 
-    setFormData(obj);
-    setErrors(err);
-    };
-
     function signup(ev) {
-    ev.preventDefault();
+        ev.preventDefault();
 
-    fetch("https://api.shipap.co.il/signup", {
-        credentials: 'include',
-        method: "POST",
-        headers: {
-            'Content-type': 'application/json'
-        },
-        body: JSON.stringify(formData),
-    })
-    .then(res => {
-        if(res.ok){
-            return res.json()
-        } else {
-            return res.text()
-            .then (x=>{
-                throw new Error(x)
+        fetch("https://api.shipap.co.il/signup?token=d2960fec-3431-11ee-b3e9-14dda9d4a5f0", {
+            credentials: 'include',
+            method: "POST",
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(formData),
+        })
+        .then(res => {
+            if(res.ok){
+                return res.json()
+            } else {
+                return res.text()
+                .then (x=>{
+                    throw new Error(x)
+                })
+            }
             })
-        }
-        })
-    .catch(err => {
-        setLoginError(err.message);
-        })
-    .finally(() => {
-        setIsLoading(false);
-        });
+        .catch(err => {
+            setLoginError(err.message);
+            })
+        .finally(() => {
+            setIsLoading(false);
+            });
     }
 
     return (
-        <div className="Signup smallFrame User">
-            <h2>REGISTER</h2>
+        <div className='User'>
+            <div className="Signup smallFrame">
+                <h2>REGISTER</h2>
+                
+                <form>
+                    {
+                        inputStructure.map((s,i)=>
+                            <div className={`inputContainer ${(i%2!=0)&& 'l'}`}>
+                                <input type={s.type} id={s.name} className={errors[s.name] ? 'formInput fieldError' : 'formInput '} onChange={handleInputChange} onFocus={focus} placeholder=''/>
+                                <label className='formLabel'>{s.name}</label>
+                                {errors[s.name] ? <div className='fieldError'>{errors[s.name]}</div> : ''}
+                            </div>
+                        )
+                    }
+                    <div className='businessContainer'>
+                        <label>
+                            <input type='checkbox'/>
+                            Signup as business
+                        </label>
+                    </div>
 
-            <form>
-            <label>
-            First name*
-                <input type="text" id='firstname' className={errors.firstname ? 'fieldError' : ''} onChange={handleInputChange} />
-            </label>
+                    <button className='cancelButton'>CANCEL</button>
+                    <button className='refreshButton'><BiRefresh size={22} /></button>
+                    <button className='submitButton' disabled={!isValid} onClick={signup}>SUBMIT</button>
 
-            {errors.firstname ? <div className='fieldError'>{errors.firstname}</div> : ''}
-
-            <label>
-                <input type="text" id='middlename' placeholder='Middle name'/>
-            </label>
-
-            <label>
-            Last name*
-                <input type="text" id='lastname' className={errors.lastname ? 'fieldError' : ''} onChange={handleInputChange} />
-            </label>
-
-            {errors.lastname ? <div className='fieldError'>{errors.lastname}</div> : ''}
-
-            <label>
-            Phone*
-                <input type="tel" id='phone' className={errors.phone ? 'fieldError' : ''} onChange={handleInputChange} />
-            </label>
-
-            {errors.phone ? <div className='fieldError'>{errors.phone}</div> : ''}
-
-            <label>
-            Email*
-                <input type="email" id='email' className={errors.email ? 'fieldError' : ''} onChange={handleInputChange} />
-            </label>
-
-            {errors.email ? <div className='fieldError'>{errors.email}</div> : ''}
-
-            <label>
-            Password*
-                <input type="password" id='password' className={errors.password ? 'fieldError' : ''} onChange={handleInputChange} />
-            </label>
-
-            {errors.password ? <div className='fieldError'>{errors.password}</div> : ''}
-
-            <label>
-                <input type="url" id='imageurl' placeholder='Image url'/>
-            </label>
-            <label>
-                <input type="text" id='imagealt' placeholder='Image alt'/>
-            </label>
-            <label>
-                <input type="text" id='state' placeholder='State'/>
-            </label>
-            <label>
-                <input type="text" id='country' placeholder='Country*'/>
-            </label>
-            <label>
-                <input type="text" id='city' placeholder='City*'/>
-            </label>
-            <label>
-                <input type="text" id='street' placeholder='Street*'/>
-            </label>
-            <label>
-                <input type="number" id='housenumber' placeholder='House number*'/>
-            </label>
-            <label>
-                <input type="number" id='zip' placeholder='Zip'/>
-            </label>
-            <label>
-            <input type='checkbox'/>
-            Signup as business
-            </label>
-
-            <button>CANCEL</button>
-            <button><BiRefresh size={22} /></button>
-            <button disabled={!isValid} onClick={signup}>SUBMIT</button>
-
-            {loginError ? <div className='fieldError'>{loginError}</div> : ''}
-            </form>
+                    {loginError ? <div className='fieldError'>{loginError}</div> : ''}
+                </form>
+            </div>
         </div>
+        
     )
 }
