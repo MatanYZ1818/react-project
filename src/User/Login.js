@@ -1,13 +1,14 @@
 import { Link, useNavigate } from 'react-router-dom';
 import "./User.scss"
 import Joi from 'joi';
+import { BiRefresh } from 'react-icons/bi';
 import { useContext, useEffect, useState } from 'react';
 import { userContext } from '../App';
 
 
 export default function Login(){
     const [formData, setFormData] = useState({
-        userName: '',
+        email: '',
         password: '',
     });
     const [loginError, setLoginError] = useState('');
@@ -30,7 +31,7 @@ export default function Login(){
         ev.preventDefault();
         setLoading(true);
         
-        fetch("https://api.shipap.co.il/login", {
+        fetch("https://api.shipap.co.il/login?token=d2960fec-3431-11ee-b3e9-14dda9d4a5f0", {
             credentials: 'include',
             method: "POST",
             headers: {
@@ -71,10 +72,9 @@ export default function Login(){
             [id]: value,
         };
 
-        setFormData(obj);
-
         const schema = loginSchema.validate(obj, { abortEarly: false});
         const errors = {};
+        console.log(schema.error)
 
         if (schema.error) {
             const error = schema.error.details.find(e => e.context.key === id);
@@ -88,6 +88,7 @@ export default function Login(){
             setIsValid(true);
         }
 
+        setFormData(obj);
         setErrors(errors);
     }
 
@@ -115,7 +116,9 @@ export default function Login(){
 
                     { errors.password ? <div className='fieldError'>{errors.password}</div> : '' }
 
-                    <button disabled={!isValid}>Login</button>
+                    <button className='cancelButton'>CANCEL</button>
+                    <button className='refreshButton'><BiRefresh size={22} /></button>
+                    <button className='submitButton' disabled={!isValid} onClick={login}>LOGIN</button>
 
                     { loginError ? <div className='fieldError'>{loginError}</div> : '' }
                 </form>

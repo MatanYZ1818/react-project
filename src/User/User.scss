@@ -5,29 +5,35 @@
         h2{
             color: black;
         }
+        form{
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: row;
+            justify-content: space-around;
+            &>.inputContainer{
+                width: 50%;
+                position: relative;
+                padding: 5px;
+            }   
+            .l{
+                flex: 1;
+            }
+            &>button{
+                width: 50%;
+                background: transparent;
+                border-radius: 8px;
+                margin: 5px;
+            }
+        }
     }
-
-    .Signup form{
-        display: flex;
-        flex-wrap: wrap;
-        flex-direction: row;
-        justify-content: space-around;
-        &>.inputContainer{
-            width: 50%;
-            position: relative;
-            padding: 5px;
-        }
-        .l{
-            flex: 1;
-        }
-        &>button{
-            width: 50%;
-            background: transparent;
-            border-radius: 8px;
-            margin: 5px;
+    .Login{
+        
+        &>form .inputContainer{
+            width: 100% !important;
         }
     }
 }
+
 
 .formInput{
     width: 100%;

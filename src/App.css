@@ -42,7 +42,7 @@ header{
 svg{
     height: 2em;
     width: 2em;
-    transition: 500ms;
+    transition: transform 500ms;
 }
 
 .iii{
@@ -67,7 +67,7 @@ body{
 }
 
 .siteContainer{
-    max-width: 700px;
+    max-width: 1170;
     width: 77%;
     margin: auto;
     border: #34A8F6 3px solid;

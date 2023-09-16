@@ -21,6 +21,7 @@ export default function Signup() {
         street:"",
         houseNumber:"",
         zip:"",
+        business:false,
     });
 
     const [loginError, setLoginError] = useState('');
@@ -41,7 +42,8 @@ export default function Signup() {
         city: Joi.string().min(0),
         street: Joi.string().min(0),
         houseNumber: Joi.string().min(0),
-        zip: Joi.number()
+        zip: Joi.number(),
+        business:Joi.boolean()
     });
 
     const inputStructure=[
@@ -53,8 +55,8 @@ export default function Signup() {
         ,{name:"password",title:"Password*",type:"password"}
         ,{name:"imageUrl",title:"Image",type:"text"}
         ,{name:"imageAlt",title:"Image alternative text",type:"text"}
-        ,{name:"state",title:"State",type:"text"}
         ,{name:"coutry",title:"Country*",type:"text"}
+        ,{name:"state",title:"State",type:"text"}
         ,{name:"city",title:"City*",type:"text"}
         ,{name:"street",title:"Street*",type:"text"}
         ,{name:"houseNumber",title:"House number*",type:"number"}
@@ -92,7 +94,16 @@ export default function Signup() {
         setErrors(err);
     };
 
-    const focus=ev=>{
+    const checkBusiness=(ev)=>{
+        console.log(formData);
+        console.log(ev.target.checked);
+        const obj = {
+            ...formData,
+            business: ev.target.checked,
+        };
+        console.log(obj);
+        setFormData(obj);
+        console.log(formData);
     }
 
     function signup(ev) {
@@ -133,7 +144,7 @@ export default function Signup() {
                     {
                         inputStructure.map((s,i)=>
                             <div className={`inputContainer ${(i%2!=0)&& 'l'}`}>
-                                <input type={s.type} id={s.name} className={errors[s.name] ? 'formInput fieldError' : 'formInput '} onChange={handleInputChange} onFocus={focus} placeholder=''/>
+                                <input type={s.type} id={s.name} className={errors[s.name] ? 'formInput fieldError' : 'formInput '} onChange={handleInputChange} placeholder=''/>
                                 <label className='formLabel'>{s.name}</label>
                                 {errors[s.name] ? <div className='fieldError'>{errors[s.name]}</div> : ''}
                             </div>
@@ -141,7 +152,7 @@ export default function Signup() {
                     }
                     <div className='businessContainer'>
                         <label>
-                            <input type='checkbox'/>
+                            <input type='checkbox' onChange={checkBusiness}/>
                             Signup as business
                         </label>
                     </div>
