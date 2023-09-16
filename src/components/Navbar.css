@@ -1,0 +1,37 @@
+.userSide{
+    width: 50%;
+    display: flex;
+    align-items: center;
+}
+
+.dataSide{
+    width: 50%;
+    direction: ltr;
+    display: flex;
+    align-items: center;
+}
+
+h2, h4{
+    display: inline-block;
+    margin: 10px;
+}
+
+span{
+    font-weight: bold;
+    font-size: larger;
+}
+
+.headerButton{
+    height: 90%;
+    background-color: #1f81b9;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.headerButton:hover{
+    background-color: #2F9DDC;
+    transition: 300ms;
+    cursor: pointer;
+}

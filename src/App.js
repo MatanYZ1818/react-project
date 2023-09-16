@@ -1,9 +1,7 @@
 import './App.css';
 import React, {useState} from "react"
 import "./resources/person-square.svg"
-import * as Icon from "react-bootstrap-icons"
-import Navbar from './Navbar';
-import MainPage from './MainPage';
+import Navbar from './components/Navbar';
 import UserRouter from './UserRouter';
 import Snackbar from './components/Snackbar';
 

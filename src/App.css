@@ -7,38 +7,6 @@ header{
     color: white;
 }
 
-.userSide{
-    width: 50%;
-    display: flex;
-    align-items: center;
-}
-
-.dataSide{
-    width: 50%;
-    direction: ltr;
-    display: flex;
-    align-items: center;
-}
-
-.dataSide>h2, .dataSide>h4{
-    display: inline-block;
-    margin: 10px;
-}
-
-.headerButton{
-    height: 90%;
-    background-color: #1f81b9;
-    color: white;
-    border: none;
-    border-radius: 10px;
-}
-
-.headerButton:hover{
-    background-color: #2F9DDC;
-    transition: 300ms;
-    cursor: pointer;
-}
-
 svg{
     height: 2em;
     width: 2em;
@@ -67,7 +35,7 @@ body{
 }
 
 .siteContainer{
-    max-width: 1170;
+    max-width: 1170px;
     width: 77%;
     margin: auto;
     border: #34A8F6 3px solid;

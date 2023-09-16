@@ -1,0 +1,14 @@
+.siteContainer{
+    max-width: 1170px;
+    width: 77%;
+    margin: auto;
+    border: #34A8F6 3px solid;
+}
+
+.devider{
+    height: 5px;
+    background-color:lightgray;
+    width: 95%;
+    margin: auto;
+    border-radius: 10px;
+}
