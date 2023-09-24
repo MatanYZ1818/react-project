@@ -51,13 +51,17 @@ body{
 
 .cardsContainer{
     color: black;
+    width: 80%;
+    margin: auto;
+    display: flex;
+    background-color: #F8A065;
 }
 
 .business_card{
     margin: 20px;
     background-color: white;
     transition: 450ms;
-    width: 33%;
+    width: 25%;
     border-radius: 10px;
 }
 
@@ -76,8 +80,12 @@ body{
 }
 
 img{
-    height: 20px;
+    height: 100%;
     margin: 15px;
+}
+
+.empty img{
+    content: url("./resources/No-Image-Placeholder.png");
 }
 
 .business_card:hover .preview{

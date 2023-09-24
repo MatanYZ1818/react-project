@@ -126,13 +126,16 @@ export default function Signup() {
                     throw new Error(x)
                 })
             }
-            })
+        })
+        .then(data => {
+            console.log(data);
+        })
         .catch(err => {
             setLoginError(err.message);
-            })
+        })
         .finally(() => {
             setIsLoading(false);
-            });
+        });
     }
 
     return (
