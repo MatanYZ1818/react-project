@@ -48,3 +48,40 @@ body{
     margin: auto;
     border-radius: 10px;
 }
+
+.cardsContainer{
+    color: black;
+}
+
+.business_card{
+    margin: 20px;
+    background-color: white;
+    transition: 450ms;
+    width: 33%;
+    border-radius: 10px;
+}
+
+.business_card:hover{
+    box-shadow: 0 0 20px;
+}
+
+.preview_wrapper{
+    overflow: hidden;
+}
+
+.preview{
+    height: 200px;
+    transition: 1200ms;
+    background-size: cover;
+}
+
+img{
+    height: 20px;
+    margin: 15px;
+}
+
+.business_card:hover .preview{
+    scale: 1.2;
+    transition: 1500ms;
+    box-sizing: border-box;
+}

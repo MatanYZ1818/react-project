@@ -49,6 +49,7 @@ export default function Login(){
             }
         })
         .then(data => {
+            console.log(data);
             setUser(data);
             setIsLogged(true);
             snackbar(`${data.fullName} login successful!`);
@@ -59,13 +60,13 @@ export default function Login(){
         })
         .finally(() => {
             setLoading(false);
+            
         });
     }
 
     const handleError = ev => {
         const { id, value } = ev.target;
 
-        console.log(ev)
 
         const obj = {
             ...formData,
@@ -74,7 +75,6 @@ export default function Login(){
 
         const schema = loginSchema.validate(obj, { abortEarly: false});
         const errors = {};
-        console.log(schema.error)
 
         if (schema.error) {
             const error = schema.error.details.find(e => e.context.key === id);
@@ -93,7 +93,6 @@ export default function Login(){
     }
 
     const focus=ev=>{
-        console.log(ev.parentElement)
     }
 
     return(

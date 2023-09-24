@@ -13,6 +13,7 @@ function App() {
 	const [isLight,setIsLight]=useState(true)
 	const [data,setData]=useState([])
     const [snackbarText, setSnackbarText] = useState('');
+	const [user,setUser]=useState()
 
 	const changeLight=ev=>{
 		console.log(ev);
@@ -24,7 +25,7 @@ function App() {
         setTimeout(() => setSnackbarText(''), 3 * 1000);
     }
 
-	const objContext={islogged ,setIsLogged ,loading ,setLoading ,isLight ,setIsLight ,data ,setData, changeLight,setLoading, snackbar}
+	const objContext={islogged ,setIsLogged ,loading ,setLoading ,isLight ,setIsLight ,data ,setData, changeLight,setLoading, snackbar,setUser}
 
 	return (
 		<userContext.Provider value={objContext}>

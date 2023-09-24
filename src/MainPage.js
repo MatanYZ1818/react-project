@@ -1,12 +1,22 @@
+import { useState } from "react"
+
 export default function MainPage(){
+
+    
+
     return(
         <>
-            hello
-            <div className='siteContainer'>
-                <h1>Cardex</h1>
-                <h4>hello and welcome to a new experience in sharing and managing your business cards</h4>
-                <div className='devider'></div>
-
-            </div></>
+            <div className="cardsContainer">
+                <div class="business_card">
+                    <div class="preview_wrapper">
+                        <div class="preview"></div>
+                    </div>
+                    <div class="business_text">
+                            <h5>כאן ועכשיו</h5>
+                        <p> Lorem ipsum dolor, sit amet consectetur adipisicing</p>
+                    </div>
+                </div>
+            </div>
+        </>
     )
 }

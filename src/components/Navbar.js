@@ -30,8 +30,8 @@ export default function Navbar(){
 
             </div>
             <div className='dataSide'>
-                <h2>CarDex</h2>
-                <Link to="/about"><button className='headerButton signup'><span>about</span></button></Link>
+                <Link to="/"><button className='headerButton cardex'><span>CarDex</span></button></Link>
+                <Link to="/about"><button className='headerButton about'><span>about</span></button></Link>
             </div>
         </>
     )
