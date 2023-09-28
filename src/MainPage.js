@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-
+import empty_picture from "./resources/No-Image-Placeholder.png"
 
 export default function MainPage(){
     const[data,setData]=useState([])
@@ -23,7 +23,7 @@ export default function MainPage(){
                     <div class="business_card empty">
                         <div class="preview_wrapper">
                             <div class="preview">
-                                <img />
+                                <img src={empty_picture} alt="no Image placeholder"/>
                             </div>
                         </div>
                         <div class="business_text">

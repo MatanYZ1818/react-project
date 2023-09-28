@@ -32,6 +32,14 @@ export default function Navbar(){
             <div className='dataSide'>
                 <Link to="/"><button className='headerButton cardex'><span>CarDex</span></button></Link>
                 <Link to="/about"><button className='headerButton about'><span>about</span></button></Link>
+                {
+                    islogged && 
+                    (
+                        <button className="headerButton fave"><span>favourite cards</span></button>
+                    )
+
+                }
+
             </div>
         </>
     )

@@ -60,7 +60,6 @@ export default function Login(){
         })
         .finally(() => {
             setLoading(false);
-            
         });
     }
 
@@ -117,7 +116,7 @@ export default function Login(){
 
                     <button className='cancelButton'>CANCEL</button>
                     <button className='refreshButton'><BiRefresh size={22} /></button>
-                    <button className='submitButton' disabled={!isValid} onClick={login}>LOGIN</button>
+                    <Link to="/"><button className='submitButton' disabled={!isValid} onClick={login}>LOGIN</button></Link>
 
                     { loginError ? <div className='fieldError'>{loginError}</div> : '' }
                 </form>

@@ -3,6 +3,8 @@ import "./User.scss"
 import Joi from 'joi';
 import { BiRefresh } from 'react-icons/bi';
 import { userContext } from '../App';
+import { Link, useNavigate } from 'react-router-dom';
+
 
 export default function Signup() {
     const { setUser, isLogged, setIsLogged, snackbar, setIsLoading } = useContext(userContext);
@@ -162,7 +164,7 @@ export default function Signup() {
 
                     <button className='cancelButton'>CANCEL</button>
                     <button className='refreshButton'><BiRefresh size={22} /></button>
-                    <button className='submitButton' disabled={!isValid} onClick={signup}>SUBMIT</button>
+                    <Link to="/login"><button className='submitButton' disabled={!isValid} onClick={signup}>SUBMIT</button></Link>
 
                     {loginError ? <div className='fieldError'>{loginError}</div> : ''}
                 </form>
