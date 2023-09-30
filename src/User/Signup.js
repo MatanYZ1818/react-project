@@ -29,6 +29,8 @@ export default function Signup() {
     const [loginError, setLoginError] = useState('');
     const [errors, setErrors] = useState({});
     const [isValid, setIsValid] = useState(false);
+    const navigate = useNavigate();
+
 
     const loginSchema = Joi.object({
         firstName: Joi.string().min(2).required(),
@@ -131,6 +133,7 @@ export default function Signup() {
         })
         .then(data => {
             console.log(data);
+            navigate("/login")
         })
         .catch(err => {
             setLoginError(err.message);

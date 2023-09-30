@@ -3,6 +3,7 @@ import * as Icon from "react-bootstrap-icons"
 import { userContext } from "../App"
 import {Link} from "react-router-dom";
 import "./Navbar.css"
+import Logout from "../User/Logout"
 
 export default function Navbar(){
     const {islogged,changeLight,isLight}=useContext(userContext)
@@ -22,10 +23,7 @@ export default function Navbar(){
                     )
                     :
                     (
-                        <button className='headerButton profile'>
-                            <Icon.PersonSquare />
-                        </button>
-                        
+                        <Logout />
                     )}
 
             </div>

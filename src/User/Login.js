@@ -31,7 +31,7 @@ export default function Login(){
         ev.preventDefault();
         setLoading(true);
         
-        fetch("https://api.shipap.co.il/login?token=d2960fec-3431-11ee-b3e9-14dda9d4a5f0", {
+        fetch("https://api.shipap.co.il/clients/login?token=d2960fec-3431-11ee-b3e9-14dda9d4a5f0", {
             credentials: 'include',
             method: "POST",
             headers: {
@@ -40,6 +40,7 @@ export default function Login(){
             body: JSON.stringify(formData),
         })
         .then(res => {
+            console.log(res)
             if (res.ok) {
                 return res.json();
             } else {
@@ -52,6 +53,7 @@ export default function Login(){
             console.log(data);
             setUser(data);
             setIsLogged(true);
+            navigate("/")
             snackbar(`${data.fullName} login successful!`);
         })
         .catch(err => {
@@ -116,7 +118,7 @@ export default function Login(){
 
                     <button className='cancelButton'>CANCEL</button>
                     <button className='refreshButton'><BiRefresh size={22} /></button>
-                    <Link to="/"><button className='submitButton' disabled={!isValid} onClick={login}>LOGIN</button></Link>
+                    <button className='submitButton' disabled={!isValid} onClick={login}>LOGIN</button>
 
                     { loginError ? <div className='fieldError'>{loginError}</div> : '' }
                 </form>

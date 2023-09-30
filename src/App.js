@@ -25,7 +25,12 @@ function App() {
         setTimeout(() => setSnackbarText(''), 3 * 1000);
     }
 
-	const objContext={islogged ,setIsLogged ,loading ,setLoading ,isLight ,setIsLight ,data ,setData, changeLight,setLoading, snackbar,setUser}
+	const objContext={islogged, setIsLogged,
+		loading, setLoading,
+		isLight, setIsLight,
+		data, setData, 
+		user, setUser,
+		changeLight, setLoading, snackbar}
 
 	return (
 		<userContext.Provider value={objContext}>
