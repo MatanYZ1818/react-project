@@ -7,7 +7,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 
 export default function Signup() {
-    const { setUser, isLogged, setIsLogged, snackbar, setIsLoading } = useContext(userContext);
+    const {snackbar, setIsLoading } = useContext(userContext);
     const [formData, setFormData] = useState({
         firstName:"",
         middleName:"",
@@ -133,10 +133,12 @@ export default function Signup() {
         })
         .then(data => {
             console.log(data);
+            snackbar("signup was successful!")
             navigate("/login")
         })
         .catch(err => {
             setSignupError(err.message);
+            snackbar("signup failed! " +err.message)
         })
         .finally(() => {
             setIsLoading(false);
@@ -151,7 +153,7 @@ export default function Signup() {
                 <form>
                     {
                         inputStructure.map((s,i)=>
-                            <div className={`inputContainer ${(i%2!=0)&& 'l'}`}>
+                            <div className={`inputContainer ${(i%2!==0)&& 'l'}`}>
                                 <input type={s.type} id={s.name} className={errors[s.name] ? 'formInput fieldError' : 'formInput '} onChange={handleInputChange} placeholder=''/>
                                 <label className='formLabel'>{s.name}</label>
                                 {errors[s.name] ? <div className='fieldError'>{errors[s.name]}</div> : ''}

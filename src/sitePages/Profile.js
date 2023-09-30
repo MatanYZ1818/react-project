@@ -1,4 +1,9 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from 'react';
+import "../User/User.scss"
+import Joi from 'joi';
+import { BiRefresh } from 'react-icons/bi';
+import { userContext } from '../App';
+
 
 export default function Profile(){
 
@@ -27,7 +32,7 @@ export default function Profile(){
 
     /////
 
-    const { setUser, isLogged, setIsLogged, snackbar, setIsLoading } = useContext(userContext);
+    const {snackbar, setIsLoading } = useContext(userContext);
 
     const [updateError, setUpdateError] = useState('');
     const [errors, setErrors] = useState({});
@@ -75,6 +80,7 @@ export default function Profile(){
             ...formData,
             [id]: value,
         };
+        console.log(obj)
 
         const schema = updateSchema.validate(obj, { abortEarly: false });
         const err = { ...errors, [id]: undefined };
@@ -110,23 +116,25 @@ export default function Profile(){
         setFormData(obj);
         console.log(formData);
     }
-
-    fetch(`https://api.shipap.co.il/clients/update?token=d2960fec-3431-11ee-b3e9-14dda9d4a5f0`, {
-        credentials: 'include',
-        method: 'PUT',
-        headers: {'Content-type': 'application/json'},
-        body: JSON.stringify(obj),
-    })
-    .then(() => {
-        snackbar("Update successful!")
-    })
-    .catch(err => {
-        setUpdateError(err.message);
-        snackbar(err.message);
-    })
-    .finally(() => {
-        setIsLoading(false);
-    });
+    function update(ev) {
+        fetch(`https://api.shipap.co.il/clients/update?token=d2960fec-3431-11ee-b3e9-14dda9d4a5f0`, {
+            credentials: 'include',
+            method: 'PUT',
+            headers: {'Content-type': 'application/json'},
+            body: JSON.stringify(formData),
+        })
+        .then(() => {
+            snackbar("Update successful!")
+        })
+        .catch(err => {
+            setUpdateError(err.message);
+            snackbar(err.message);
+        })
+        .finally(() => {
+            setIsLoading(false);
+        });
+    }
+    
 
 
     /////
@@ -140,8 +148,10 @@ export default function Profile(){
                 <form>
                     {
                         inputStructure.map((s,i)=>
-                            <div className={`inputContainer ${(i%2!=0)&& 'l'}`}>
-                                <input type={s.type} id={s.name} className={errors[s.name] ? 'formInput fieldError' : 'formInput '} onChange={handleInputChange} placeholder=''/>
+                            <div className={`inputContainer ${(i%2!==0)&& 'l'}`}>
+                                <input type={s.type} id={s.name}
+                                    className={errors[s.name] ? 'formInput fieldError' : 'formInput '}
+                                    onChange={handleInputChange} placeholder='' value={formData[i]}/>
                                 <label className='formLabel'>{s.name}</label>
                                 {errors[s.name] ? <div className='fieldError'>{errors[s.name]}</div> : ''}
                             </div>

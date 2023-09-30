@@ -30,7 +30,7 @@ function App() {
 		isLight, setIsLight,
 		data, setData, 
 		user, setUser,
-		changeLight, setLoading, snackbar}
+		changeLight, snackbar}
 
 	useEffect(() => {
 		fetch("https://api.shipap.co.il/clients/login", {

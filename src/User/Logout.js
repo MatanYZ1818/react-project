@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { userContext } from '../App';
 import './User.scss';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import * as Icon from "react-bootstrap-icons"
 
 export default function Logout() {
@@ -25,9 +25,9 @@ export default function Logout() {
 
     return (
         <>
-            <button className='headerButton profile'>
+            <Link to="/profile"><button className='headerButton profile'>
                 <span>{user.fullName} <Icon.PersonSquare /></span>
-            </button>
+            </button></Link>
             <button className="headerButton logout" onClick={logout}><span>log out</span></button>
         </>
     )
