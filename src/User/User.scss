@@ -64,7 +64,6 @@
     background-color:#65bdf8 ;
 }
 
-
 input.fieldError{
   border-color: red;
   outline-color: red;
@@ -92,4 +91,8 @@ div.fieldError{
     background: #77889966 !important;
     width: 100% !important;
     height: 37px;
+}
+.profile>span{
+    display: flex;
+    align-items: center;
 }

@@ -1,38 +1,39 @@
-import { useContext, useState } from 'react';
-import "./User.scss"
-import Joi from 'joi';
-import { BiRefresh } from 'react-icons/bi';
-import { userContext } from '../App';
-import { Link, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from "react";
 
+export default function Profile(){
 
-export default function Signup() {
+    const [formData,setFormData]=useState([])
+    useEffect(()=>{
+        fetch(`https://api.shipap.co.il/clients/login`, {
+        credentials: 'include',
+        })
+        .then(res => {
+            if (res.ok) {
+                return res.json();
+            } else {
+                return res.text().then(x => {
+                    throw new Error(x);
+                });
+            }
+        })
+        .then(data => {
+            console.log(data)
+            setFormData(data)
+        })
+        .catch(err => {
+            console.log(err.message);
+        });
+    },[])
+
+    /////
+
     const { setUser, isLogged, setIsLogged, snackbar, setIsLoading } = useContext(userContext);
-    const [formData, setFormData] = useState({
-        firstName:"",
-        middleName:"",
-        lastName:"",
-        phone:"",
-        email:"",
-        password:"",
-        imageUrl:"",
-        imageAlt:"",
-        state:"",
-        coutry:"",
-        city:"",
-        street:"",
-        houseNumber:"",
-        zip:"",
-        business:false,
-    });
 
-    const [signupError, setSignupError] = useState('');
+    const [updateError, setUpdateError] = useState('');
     const [errors, setErrors] = useState({});
     const [isValid, setIsValid] = useState(false);
-    const navigate = useNavigate();
 
-
-    const loginSchema = Joi.object({
+    const updateSchema = Joi.object({
         firstName: Joi.string().min(2).required(),
         middleName: Joi.string().min(0),
         lastName: Joi.string().min(2).required(),
@@ -75,7 +76,7 @@ export default function Signup() {
             [id]: value,
         };
 
-        const schema = loginSchema.validate(obj, { abortEarly: false });
+        const schema = updateSchema.validate(obj, { abortEarly: false });
         const err = { ...errors, [id]: undefined };
 
         console.log(schema.error)
@@ -110,43 +111,31 @@ export default function Signup() {
         console.log(formData);
     }
 
-    function signup(ev) {
-        ev.preventDefault();
+    fetch(`https://api.shipap.co.il/clients/update?token=d2960fec-3431-11ee-b3e9-14dda9d4a5f0`, {
+        credentials: 'include',
+        method: 'PUT',
+        headers: {'Content-type': 'application/json'},
+        body: JSON.stringify(obj),
+    })
+    .then(() => {
+        snackbar("Update successful!")
+    })
+    .catch(err => {
+        setUpdateError(err.message);
+        snackbar(err.message);
+    })
+    .finally(() => {
+        setIsLoading(false);
+    });
 
-        fetch("https://api.shipap.co.il/signup?token=d2960fec-3431-11ee-b3e9-14dda9d4a5f0", {
-            credentials: 'include',
-            method: "POST",
-            headers: {
-                'Content-type': 'application/json'
-            },
-            body: JSON.stringify(formData),
-        })
-        .then(res => {
-            if(res.ok){
-                return res.json()
-            } else {
-                return res.text()
-                .then (x=>{
-                    throw new Error(x)
-                })
-            }
-        })
-        .then(data => {
-            console.log(data);
-            navigate("/login")
-        })
-        .catch(err => {
-            setSignupError(err.message);
-        })
-        .finally(() => {
-            setIsLoading(false);
-        });
-    }
 
-    return (
+    /////
+
+    return(
+        
         <div className='User'>
             <div className="Signup smallFrame">
-                <h2>REGISTER</h2>
+                <h2>User Details</h2>
                 
                 <form>
                     {
@@ -161,18 +150,18 @@ export default function Signup() {
                     <div className='businessContainer'>
                         <label>
                             <input type='checkbox' onChange={checkBusiness}/>
-                            Signup as business
+                            Set as business
                         </label>
                     </div>
 
                     <button className='cancelButton'>CANCEL</button>
                     <button className='refreshButton'><BiRefresh size={22} /></button>
-                    <Link to="/login"><button className='submitButton' disabled={!isValid} onClick={signup}>SUBMIT</button></Link>
+                    <button className='submitButton' disabled={!isValid} onClick={update}>UPDATE</button>
 
-                    {signupError ? <div className='fieldError'>{signupError}</div> : ''}
+                    {updateError ? <div className='fieldError'>{updateError}</div> : ''}
                 </form>
             </div>
         </div>
-        
+
     )
 }

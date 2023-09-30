@@ -1,5 +1,5 @@
 import './App.css';
-import React, {useState} from "react"
+import React, {useState,useEffect} from "react"
 import "./resources/person-square.svg"
 import Navbar from './components/Navbar';
 import UserRouter from './UserRouter';
@@ -31,6 +31,34 @@ function App() {
 		data, setData, 
 		user, setUser,
 		changeLight, setLoading, snackbar}
+
+	useEffect(() => {
+		fetch("https://api.shipap.co.il/clients/login", {
+			credentials: 'include',
+		})
+		.then(res => {
+			if (res.ok) {
+				return res.json();
+			} else {
+				return res.text().then(x => {
+					throw new Error(x);
+				});
+			}
+		})
+		.then(data => {
+			setUser(data);
+			setIsLogged(true);
+			snackbar(`${data.fullName} מחובר!`);
+		})
+		.catch(err => {
+			setUser();
+			setIsLogged(false);
+			snackbar(err.message);
+		})
+		.finally(() => {
+			setLoading(false);
+		});
+	}, []);
 
 	return (
 		<userContext.Provider value={objContext}>

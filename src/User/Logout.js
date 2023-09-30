@@ -11,7 +11,7 @@ export default function Logout() {
     const logout = () => {
         setLoading(true);
 
-        fetch("https://api.shipap.co.il/logout", {
+        fetch("https://api.shipap.co.il/clients/logout", {
             credentials: 'include',
         })
         .then(() => {
@@ -24,11 +24,11 @@ export default function Logout() {
     }
 
     return (
-        <p className='user'>
+        <>
             <button className='headerButton profile'>
-                {user.fullName} <Icon.PersonSquare />
+                <span>{user.fullName} <Icon.PersonSquare /></span>
             </button>
-            <button className="logout" onClick={logout}>התנתק</button>
-        </p>
+            <button className="headerButton logout" onClick={logout}><span>log out</span></button>
+        </>
     )
 }
